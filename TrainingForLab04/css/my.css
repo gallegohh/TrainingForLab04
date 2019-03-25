@@ -1,0 +1,9 @@
+﻿#zona{
+    min-height: 20vh;
+    background-color: #e9e9e9;
+    border-radius: 2em;
+}
+
+#info p:hover {
+    background-color: #b8c5ed;
+}

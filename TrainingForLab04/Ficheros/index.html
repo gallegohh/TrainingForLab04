@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="../Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/my.css" />
+</head>
+<body>
+   <div class="container">
+       <h1 class="display-1 text-center">Ficheros</h1>
+       <div class="row justify-content-center py-5">
+           <div class="col-md-12" id="zona">
+
+           </div>
+           <div class="col-md-4" id="info">
+
+           </div>
+
+       </div>
+       <div class="row" id="galeria">
+
+       </div>
+   </div>
+
+    <script src="../Scripts/jquery-3.0.0.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script>
+
+        function leerFicheros(items) {
+            if (items) {
+                document.getElementById('galeria').innerHTML = '';
+
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].type.match(/image.*/)) {
+
+                        var lector = new FileReader();
+
+                        lector.onload = function (e) {
+                            $('#galeria').append(
+                                $('<div>').addClass('col-md-4').append(
+                                    $('<img>').addClass('img-fluid').attr('src', e.target.result)
+                                )
+                            );
+                        };
+
+                        lector.readAsDataURL(items[i]);
+                    }
+                }
+            }
+        }
+
+        document.getElementById('zona').ondragenter = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        }
+
+        document.getElementById('zona').ondragover = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        }
+
+        document.getElementById('zona').ondrop = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var ficheros = e.dataTransfer.files;
+            leerFicheros(ficheros);
+
+            for (var i = 0; i < ficheros.length; i++) {
+                    document.getElementById('info').innerHTML += '<p>' + ficheros[i].name + '</p>';
+            };
+
+
+        };
+    </script>
+</body>
+</html>
