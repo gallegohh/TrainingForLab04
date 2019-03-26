@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Training Web Sockets</title>
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/my.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-success btn-block" id="botonConectar">Conectar</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary btn-block" id="botonMensaje">Enviar Mensaje</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-danger btn-block" id="botonDesconectar">Desconectar</button>
+            </div>
+        </div>
+        <div class="row py-4">
+            <div class="col-md-12" id="areaMensajes"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="i1" placeholder="Conectando..." />
+                </div>
+            </div>           
+        </div>
+    </div>
+    <script src="../Scripts/jquery-3.0.0.min.js"></script>
+    <script>
+        var socket = new WebSocket('ws://localhost:49803/ws/echo.ashx');
+
+        socket.
+
+        $(socket).on('open', function (e) {
+            $('#i1').attr('placeholder', 'Escribe un mensaje');
+            $('#areaMensajes').append('<p class="text-success">Estás conectado</p>');
+        });
+
+        //socket.onopen = function (e) {
+        //    document.getElementById('i1').setAttribute('placeholder', 'Escribe un mensaje');
+        //    var p = document.createElement('p');
+        //    p.innerText = 'CONECTADO';
+        //    p.classList.add('text-success')
+        //    document.getElementById('areaMensajes').appendChild(p);            
+        //};
+
+        //socket.onmessage = function (e) {
+        //    $('#areaMensajes').append('<p class="text-primary">' + e.data + '</p>');
+        //}
+
+        $(socket).on('message', function (e) {
+            $('#areaMensajes').append('<p>'+e.originalEvent.data+'</p>');
+        });
+
+        socket.onclose = function (e) {
+            $('#areaMensajes').append('<p class="text-danger">Desconectado</p>');
+        }
+
+        $('#botonMensaje').click(function (e) {
+            socket.send($('#i1').val());
+        });
+
+        $('#botonDesconectar').click(function (e) {
+            socket.close();
+        });
+
+    </script>
+</body>
+</html>
