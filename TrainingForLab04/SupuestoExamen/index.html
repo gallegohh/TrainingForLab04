@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Supuesto Examen</title>
+    <link rel="stylesheet" href="../Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/my.css"
+</head>
+<body>
+    <div class="container py-3">
+        <h1 class="display-1 text-center">Supuesto Examen</h1>
+        <div class="container" id="dropZone">
+            <h2 class="display-4">Drop Here</h2>
+        </div>
+    </div>
+    <script src="../Scripts/jquery-3.0.0.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script>
+
+        function pintaTabla(ficheros) {
+            (document.getElementsByTagName('div')[0]).append(document.createElement('table'));
+            $('table').addClass('table table-striped py-3').append('<thead><tr><th>Nombre</th><th>Tipo</th></tr></thead><tbody>')
+            
+            for (var i = 0; i < ficheros.length; i++) {
+                $('div').eq(0).append($('table').append('<tr><td>' + ficheros[i].name + '</td><td>' + ficheros[i].type + '</td></tr>'));
+            }
+            $('table').append('</tbody>');
+        };
+
+        function datosSocket(datos) {
+            var socket = new WebSocket();
+            socket.url = 'ws://localhost:77979/ws/socket_1.ashx';
+            
+        }
+
+        document.getElementById('dropZone').ondragenter = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        };
+
+        document.getElementById('dropZone').ondragleave = function (e) {
+            $('#dropZone').css('background-color', 'white');
+        }
+
+        document.getElementById('dropZone').ondragover = function (e) {
+            $('#dropZone').css('background-color', '#eeeeee');
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        };
+
+        document.getElementById('dropZone').ondrop = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var ficheros = e.dataTransfer.files;
+            if (ficheros.length > 0) {
+                pintaTabla(ficheros);
+                datosSocket(ficheros);
+            }
+        };
+    </script>
+</body>
+</html>

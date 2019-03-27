@@ -7,3 +7,18 @@
 #info p:hover {
     background-color: #b8c5ed;
 }
+
+#dropZone {
+    height: 70vh;
+    border: 10px dashed #b8c5ed;
+    border-radius: 5em;
+    margin: 2em 0em;
+    text-align: center;
+    display: table;
+}
+
+#dropZone h2{
+    display: table-cell;
+    vertical-align: middle;
+    margin: auto;
+}
